@@ -14,4 +14,11 @@ public interface RunningInfoAnalysisService {
     Page<RunningInformation> findByRunningId(String runningId, Pageable pageable);
 
     void deleteByRunningId(String runningId);
+
+    Page<RunningInformation> findByHeartRateGreaterThan(int heartRate, Pageable pageable);
+
+    Page<RunningInformation> findByHeartRate(int heartRate, Pageable pageable);
+
+    Page<RunningInformation> findAll(Pageable pageable);
+
 }

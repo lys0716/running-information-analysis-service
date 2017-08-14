@@ -13,4 +13,8 @@ public interface RunningInformationRepository extends JpaRepository<RunningInfor
 
     @Transactional
     void deleteByRunningId(@Param("runningId") String runningId);
+
+    Page<RunningInformation> findByHeartRateGreaterThan(@Param("heartRate") int heartRate, Pageable pageable);
+
+    Page<RunningInformation> findByHeartRate(@Param("heartRate") int heartRate, Pageable pageable);
 }

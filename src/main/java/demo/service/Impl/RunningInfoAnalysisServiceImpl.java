@@ -9,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Random;
 
 @Service
 public class RunningInfoAnalysisServiceImpl implements RunningInfoAnalysisService {
@@ -23,22 +22,7 @@ public class RunningInfoAnalysisServiceImpl implements RunningInfoAnalysisServic
 
     @Override
     public List<RunningInformation> saveRunningInformation(List<RunningInformation> runningInformations) {
-        int pressureUpperBound = 141;
-        int hearRateBase = 60;
-        Random random = new Random();
-        for (RunningInformation runningInformation : runningInformations) {
-            runningInformation.setHeartRate(hearRateBase + random.nextInt(pressureUpperBound));
-            int heartRate = runningInformation.getHeartRate();
-            if (heartRate <= 75) {
-                runningInformation.setHealthWarningLevel(RunningInformation.HealthWarningLevel.Low);
-            } else if (heartRate <= 120) {
-                runningInformation.setHealthWarningLevel(RunningInformation.HealthWarningLevel.Normal);
-            } else {
-                runningInformation.setHealthWarningLevel(RunningInformation.HealthWarningLevel.High);
-            }
-            runningInformationRepository.save(runningInformation);
-        }
-        return runningInformations;
+        return this.runningInformationRepository.save(runningInformations);
     }
 
     @Override
@@ -54,5 +38,20 @@ public class RunningInfoAnalysisServiceImpl implements RunningInfoAnalysisServic
     @Override
     public void deleteByRunningId(String runningId) {
         runningInformationRepository.deleteByRunningId(runningId);
+    }
+
+    @Override
+    public Page<RunningInformation> findByHeartRateGreaterThan(int heartRate, Pageable pageable) {
+        return runningInformationRepository.findByHeartRateGreaterThan(heartRate, pageable);
+    }
+
+    @Override
+    public Page<RunningInformation> findByHeartRate(int heartRate, Pageable pageable) {
+        return runningInformationRepository.findByHeartRate(heartRate, pageable);
+    }
+
+    @Override
+    public Page<RunningInformation> findAll(Pageable pageable) {
+        return runningInformationRepository.findAll(pageable);
     }
 }
